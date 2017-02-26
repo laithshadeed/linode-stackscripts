@@ -8,85 +8,85 @@ DOCKER_VERSION=1.12.3-0~xenial
 KERNEL_VERSION=4.9.12
 
 function system_primary_ip {
-	# returns the primary IP assigned to eth0
-	echo $(/sbin/ifconfig eth0 | awk '/inet / { print $2 }' | sed 's/addr://')
+  # returns the primary IP assigned to eth0
+  echo $(/sbin/ifconfig eth0 | awk '/inet / { print $2 }' | sed 's/addr://')
 }
 
 function system_set_hostname {
-	# $1 - The hostname to define
-	HOSTNAME="$1"
+  # $1 - The hostname to define
+  HOSTNAME="$1"
 
-	if [ ! -n "$HOSTNAME" ]; then
-		echo "Hostname undefined"
-		return 1;
-	fi
+  if [ ! -n "$HOSTNAME" ]; then
+    echo "Hostname undefined"
+    return 1;
+  fi
 
-	echo "$HOSTNAME" > /etc/hostname
-	hostname -F /etc/hostname
+  echo "$HOSTNAME" > /etc/hostname
+  hostname -F /etc/hostname
 }
 
 function system_add_host_entry {
-	IPADDR="$1"
-	FQDN="$2"
-	HOSTNAME="$3"
+  IPADDR="$1"
+  FQDN="$2"
+  HOSTNAME="$3"
 
-	if [ -z "$IPADDR" -o -z "$FQDN" -o -z "$HOSTNAME" ]; then
-		echo "IP address and/or FQDN Undefined and/or HOSTNAME Undefined"
-		return 1;
-	fi
+  if [ -z "$IPADDR" -o -z "$FQDN" -o -z "$HOSTNAME" ]; then
+    echo "IP address and/or FQDN Undefined and/or HOSTNAME Undefined"
+    return 1;
+  fi
 
-	echo $IPADDR $FQDN  >> /etc/hosts
-	echo "127.0.1.1 master.members.linode.com $HOSTNAME" >> /etc/hosts
+  echo $IPADDR $FQDN  >> /etc/hosts
+  echo "127.0.1.1 master.members.linode.com $HOSTNAME" >> /etc/hosts
 }
 
 
 function user_add_sudo {
-	USERNAME="$1"
-	USERPASS="$2"
+  USERNAME="$1"
+  USERPASS="$2"
 
-	if [ ! -n "$USERNAME" ] || [ ! -n "$USERPASS" ]; then
-		echo "No new username and/or password entered"
-		return 1;
-	fi
+  if [ ! -n "$USERNAME" ] || [ ! -n "$USERPASS" ]; then
+    echo "No new username and/or password entered"
+    return 1;
+  fi
 
-	adduser $USERNAME --disabled-password --gecos ""
-	echo "$USERNAME:$USERPASS" | chpasswd
-	usermod -aG sudo $USERNAME
+  adduser $USERNAME --disabled-password --gecos ""
+  echo "$USERNAME:$USERPASS" | chpasswd
+  usermod -aG sudo $USERNAME
 }
 
 function user_add_pubkey {
-	USERNAME="$1"
-	USERPUBKEY="$2"
+  USERNAME="$1"
+  USERPUBKEY="$2"
 
-	if [ ! -n "$USERNAME" ] || [ ! -n "$USERPUBKEY" ]; then
-		echo "Must provide a username and the location of a pubkey"
-		return 1;
-	fi
+  if [ ! -n "$USERNAME" ] || [ ! -n "$USERPUBKEY" ]; then
+    echo "Must provide a username and the location of a pubkey"
+    return 1;
+  fi
 
-	if [ "$USERNAME" == "root" ]; then
-		mkdir /root/.ssh
-		echo "$USERPUBKEY" >> /root/.ssh/authorized_keys
-		return 1;
-	fi
+  if [ "$USERNAME" == "root" ]; then
+    mkdir /root/.ssh
+    echo "$USERPUBKEY" >> /root/.ssh/authorized_keys
+    return 1;
+  fi
 
-	mkdir -p /home/$USERNAME/.ssh
-	echo "$USERPUBKEY" >> /home/$USERNAME/.ssh/authorized_keys
-	chown -R "$USERNAME":"$USERNAME" /home/$USERNAME/.ssh
+  mkdir -p /home/$USERNAME/.ssh
+  echo "$USERPUBKEY" >> /home/$USERNAME/.ssh/authorized_keys
+  chown -R "$USERNAME":"$USERNAME" /home/$USERNAME/.ssh
 }
 
 function ssh_disable_root {
-	sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+  sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
 }
 
 function postfix_install_loopback_only {
-	# Installs postfix and configure to listen only on the local interface. Also
-	# allows for local mail delivery
+  # Installs postfix and configure to listen only on the local interface. Also
+  # allows for local mail delivery
 
-	echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
-	echo "postfix postfix/mailname string localhost" | debconf-set-selections
-	echo "postfix postfix/destinations string localhost.localdomain, localhost" | debconf-set-selections
-	apt-get -y install postfix
-	/usr/sbin/postconf -e "inet_interfaces = loopback-only"
+  echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
+  echo "postfix postfix/mailname string localhost" | debconf-set-selections
+  echo "postfix postfix/destinations string localhost.localdomain, localhost" | debconf-set-selections
+  apt-get -y install postfix
+  /usr/sbin/postconf -e "inet_interfaces = loopback-only"
 }
 
 # Linode ipv6 is superslow
