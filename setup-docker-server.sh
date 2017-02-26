@@ -35,8 +35,7 @@ function system_add_host_entry {
     return 1;
   fi
 
-  echo $IPADDR $FQDN  >> /etc/hosts
-  echo "127.0.1.1 master.members.linode.com $HOSTNAME" >> /etc/hosts
+  echo $IPADDR $FQDN $HOSTNAME >> /etc/hosts
 }
 
 
