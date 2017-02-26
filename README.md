@@ -14,7 +14,7 @@ wget -q https://raw.githubusercontent.com/docker/docker/master/contrib/check-con
 
 ### Create Stackscript in Linode
 
-[Create stackscript](https://www.linode.com/docs/platform/stackscripts) with:
+[Create stackscript](https://www.linode.com/docs/platform/stackscripts) with Ubuntu 16.04 LTS & this script:
 
 ```
 #!/bin/bash
