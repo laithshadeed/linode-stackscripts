@@ -1,41 +1,5 @@
 #!/bin/bash
 # This script setup a fresh Ubuntu 16.04 server with Custom Kernel compiled specially for Docker
-# To use, add this to your StackScript by copying this
-
-# COPY FROM HERE
-#<UDF name="hostname" label="The hostname for the new Linode.">
-#<UDF name="fqdn" label="The new Linode's Fully Qualified Domain Name">
-#<UDF name="sudo_user" Label="User with sudo" />
-#<UDF name="sudo_user_pass" Label="Sudo user password" />
-#<UDF name="sudo_user_pubkey" Label="Sudo user public key" />
-# set -e
-# set -x
-#
-# wget -q https://gist.githubusercontent.com/laithshadeed/73080e8899219b8c9d71e5d4488a2845/raw/init.sh -O - | /bin/bash
-# touch /tmp/provisioned-successfully
-# TO HERE
-
-# Or from inside your Linode shell
-# HOSTNAME=your_host
-# FQDN=your_fqdn
-# SUDO_USER=your_user
-# SUDO_USER_PASS=your_pass
-# SUDO_USER_PUBKEY='your_pub_key'
-# wget -q https://gist.githubusercontent.com/laithshadeed/73080e8899219b8c9d71e5d4488a2845/raw/init.sh -O - | /bin/bash
-
-# Compiling the Kernal will talk long time. I suggest the following
-# 1. Create 'Linode 81920' (Yes I know, it is expensive, but will we just need it for 10-15 min ~ 1 $)
-# 2. Set profile label: 'Ubuntu 16.04-4.9.12 Docker 1.12.3'
-# 2. Click 'Rebuild' with your Stackscript or with Ubuntu 16.04. Make sure to choose small disk size ~ 10GB
-# 3. It will take 2-3 min to setup (including Kernel compilation). Rename the Disk to 'Ubuntu 16.04-4.9.12 Docker 1.12.3'
-# 4. Go back and edit your profile. Now set 'Kernel' dropdown menu to 'Grub2'
-# 5. Save & Reboot. Now your Linode should reboot into the newly compiled kernel, 4.9.12.
-# 6. To verify. Login and run: `uname -a`. Confirm your docker is running: `ps aux | grep docker`
-# 7. Now your disk is ready. Shutdown your Linode.
-# 8. Go to your Disk. Click 'Create Image'
-# 9. Now you can resize your linode to smaller size or delete it and create new one with that new image.
-# 10. When you create new linode. You need to always choose 'Grub2' for kernel and your newly create disk or image.
-# 11. Good luck !
 
 set -e
 set -x
