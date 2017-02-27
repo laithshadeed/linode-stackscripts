@@ -1,7 +1,7 @@
 #!/bin/bash
 # This script setup a fresh Ubuntu 16.04 server with Custom Kernel compiled specially for Docker
 
-set -e
+set -e -o pipefail
 set -x
 
 DOCKER_VERSION=1.12.3-0~xenial
