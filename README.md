@@ -76,3 +76,8 @@ for some visual explanation.
   `grub-pc`, `console-setup`, `docker-engine` versions from being upgraded.
 * It is *not* designed to run many times. It assumed to be run only
   *one* time.
+
+### TODO
+* Check out [Ubuntu Build Kernel
+  Wiki](https://wiki.ubuntu.com/Kernel/BuildYourOwnKernel) for possibly
+better way to build the Kernel.
