@@ -117,7 +117,9 @@ zcat /proc/config.gz > .config
 
 # Append the missing configs
 URL='https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh'
-wget -q "${URL}" -O - | /bin/bash | grep missing | grep -oP 'CONFIG_[^:]+' | sed -e "s/\x1B\[m/=y/" >> .config
+wget -q "${URL}" -O /tmp/check-config.sh
+chmod +x /tmp/check-config.sh
+/tmp/check-config.sh | grep missing | grep -oP 'CONFIG_[^:]+' | sed -e "s/\x1B\[m/=y/" >> .config
 
 mkdir -p /lib/modules/${KERNEL_VERSION}
 
