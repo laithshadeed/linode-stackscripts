@@ -119,6 +119,8 @@ zcat /proc/config.gz > .config
 URL='https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh'
 wget -q "${URL}" -O - | /bin/bash | grep missing | grep -oP 'CONFIG_[^:]+' | sed -e "s/\x1B\[m/=y/" >> .config
 
+mkdir -p /lib/modules/${KERNEL_VERSION}
+
 make oldconfig
 make --jobs=$(nproc) bzImage
 make --jobs=$(nproc) modules
