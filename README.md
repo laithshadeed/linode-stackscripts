@@ -54,7 +54,7 @@ Compiling the Kernal will talk long time. I suggest the following
 * Set profile label: 'Ubuntu 16.04-4.9.12 Docker 1.12.3'
 * Click 'Rebuild' with your Stackscript or with Ubuntu 16.04. Make sure to choose small disk size ~ 10GB
 * It will take 2-3 min to setup (including Kernel compilation). Rename the Disk to 'Ubuntu 16.04-4.9.12 Docker 1.12.3'
-* Go back and edit your profile. Now set 'Kernel' dropdown menu to 'Grub2'
+* Go back and edit your profile. Now set 'Kernel' dropdown menu to 'Grub2' & Disable 'Network Helper'
 * Save & Reboot. Now your Linode should reboot into the newly compiled kernel, 4.9.12.
 * To verify. Login and run: `uname -a`. Confirm your docker is running: `ps aux | grep docker`
 * Now your disk is ready. Shutdown your Linode.
